@@ -13,7 +13,7 @@ type ALSServer struct {
 }
 
 func (a *ALSServer) StreamAccessLogs(logStream alsv2.AccessLogService_StreamAccessLogsServer) error {
-	log.Println("Streaming als v3 logs")
+	log.Println("Streaming als v2 logs")
 	for {
 		data, err := logStream.Recv()
 		if err != nil {
