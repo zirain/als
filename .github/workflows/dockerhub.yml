@@ -2,8 +2,8 @@ name: CI to Docker Hub
 
 on:
   push:
-    tags:
-      - "v*.*.*"
+    branches:
+      - main
 
 jobs:
 
@@ -16,11 +16,11 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
-          go-version: ‘1.16.5’
+          go-version: 1.14.0
       
       - name: Run build
         run: |
-          GOOS=linux GOARCH=amd64 go build -o envoy-als-server cmd/
+          GOOS=linux GOARCH=amd64 go build -o envoy-als-server cmd/main.go
           chmod 777 envoy-als-server
         
       - name: Set up Docker Buildx
