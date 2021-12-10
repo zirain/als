@@ -11,6 +11,7 @@ kubectl delete -f k8s.yaml -nistio-system
 # build image
 docker rmi envoy-als-server:latest
 docker build -t envoy-als-server:latest .
+rm -rf envoy-als-server
 
 # run pod
 kubectl apply -f k8s.yaml -nistio-system
