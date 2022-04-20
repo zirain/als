@@ -1,6 +1,7 @@
 # als
 a simple als server demo
 
+[OTel Provider](https://istio.io/latest/docs/tasks/observability/logs/otel-provider/) is future.
 
 
 # 安装 flatbuffer
