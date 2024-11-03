@@ -1,4 +1,4 @@
-name: CI to Docker Hub 
+name: CI to Docker Hub
 
 on:
   push:
@@ -6,27 +6,11 @@ on:
       - main
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.14.0
-      
-      - name: Run build
-        run: |
-          GOOS=linux GOARCH=amd64 go build -o envoy-als-server cmd/main.go
-          chmod 777 envoy-als-server
-        
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
-
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
       - name: Cache Docker layers
         uses: actions/cache@v2
         with:
@@ -35,22 +19,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - uses: docker/login-action@v1 
+      - uses: docker/login-action@v3
         with:
+          registry: ghcr.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      
-      - name: Build and push
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          context: ./ 
-          file: ./deploy/Dockerfile
-          builder: ${{ steps.buildx.outputs.name }}
-          push: true
-          tags: zirain/envoy-als-server:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
 
-      - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        run: |
+          make docker-push
