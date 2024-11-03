@@ -1,4 +1,4 @@
-name: tags to Docker Hub
+name: tags to ghcr.io
 
 on:
   push:
