@@ -1,5 +1,5 @@
 
-IMAGE_PREFIX ?= zirain/
+IMAGE_PREFIX ?= ghcr.io/zirain/
 APP_NAME ?= als
 TAG ?= latest
 
