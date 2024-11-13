@@ -32,6 +32,7 @@ var (
 )
 
 func main() {
+	flag.Parse()
 	// Set up monitoring server
 	mux := http.NewServeMux()
 	if err := addMonitor(mux); err != nil {
